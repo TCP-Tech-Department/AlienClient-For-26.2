@@ -1,0 +1,31 @@
+accessWidener	v1	official
+
+# ===== 26.2 迁移说明 =====
+# 本文件已从 Yarn 命名迁移到官方 Mojang 命名（26.2）。
+# 因 26.2 API 重构而失效、已移除的条目（对应消费方代码将在 P3/P5 重写）：
+#   - PlayerInteractEntityC2SPacket 的 entityId/type/ATTACK/InteractTypeHandler/InteractType/getType/write
+#       → 26.2 中该包已改为 record ServerboundInteractPacket(entityId, hand, location, usingSecondaryAction)，
+#         旧 InteractType 机制不存在；Criticals/MaceSpoof/Aura/AntiWeak/FakePlayer/ServerManager 需重写判定逻辑。
+#   - ModelPart$Cuboid sides / ModelPart$Cuboid$Quad
+#       → 26.2 模型结构改为 ModelPart.Cube（无 Quad/sides）；ModelPlayer 需重写。
+#   - TextRenderer drawLayer(...)
+#       → 26.2 中 TextRenderer 更名为 Font 且绘制 API 重构；Render3DUtil/NameTags 需重写。
+#   - ClientWorld getPendingUpdateManager()
+#       → 26.2 中 ClientLevel 已无 PendingUpdateManager；Module.java 需重写。
+#   - LimbAnimator pos / Direction HORIZONTAL
+#       → 项目中无实际消费点，直接移除。
+
+accessible field net/minecraft/world/inventory/AbstractContainerMenu stateId I
+accessible field net/minecraft/client/Minecraft rightClickDelay I
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase cache Lnet/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase$Cache;
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase$Cache isCollisionShapeFullBlock Z
+accessible field net/minecraft/world/level/chunk/PalettedContainer data Lnet/minecraft/world/level/chunk/PalettedContainer$Data;
+accessible field net/minecraft/client/model/geom/ModelPart cubes Ljava/util/List;
+accessible field net/minecraft/client/model/geom/ModelPart children Ljava/util/Map;
+accessible field com/mojang/blaze3d/systems/RenderSystem shaderLightDirections Lcom/mojang/blaze3d/buffers/GpuBufferSlice;
+
+accessible class net/minecraft/world/level/chunk/PalettedContainer$Data
+
+accessible method net/minecraft/client/Minecraft startUseItem ()V
+accessible method net/minecraft/world/level/chunk/PalettedContainer$Data palette ()Lnet/minecraft/world/level/chunk/Palette;
+accessible method net/minecraft/world/entity/LivingEntity checkTotemDeathProtection (Lnet/minecraft/world/damagesource/DamageSource;)Z

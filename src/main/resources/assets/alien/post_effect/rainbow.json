@@ -1,0 +1,29 @@
+{
+    "passes": [
+        {
+            "vertex_shader": "minecraft:core/screenquad",
+            "fragment_shader": "alien:post/rainbow",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:entity_outline",
+                    "bilinear": true
+                },
+                {
+                    "sampler_name": "Hands",
+                    "target": "alien:hands",
+                    "bilinear": true
+                }
+            ],
+            "output": "alien:glow",
+            "uniforms": {
+                "AlienConfig": [
+                    { "name": "Alpha", "type": "float", "value": 0.6 },
+                    { "name": "Time", "type": "float", "value": 0.0 },
+                    { "name": "Pad0", "type": "float", "value": 0.0 },
+                    { "name": "Pad1", "type": "float", "value": 0.0 }
+                ]
+            }
+        }
+    ]
+}

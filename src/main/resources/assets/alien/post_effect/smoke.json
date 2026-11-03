@@ -1,0 +1,35 @@
+{
+    "passes": [
+        {
+            "vertex_shader": "minecraft:core/screenquad",
+            "fragment_shader": "alien:post/smoke",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:entity_outline",
+                    "bilinear": true
+                },
+                {
+                    "sampler_name": "Hands",
+                    "target": "alien:hands",
+                    "bilinear": true
+                }
+            ],
+            "output": "alien:glow",
+            "uniforms": {
+                "AlienConfig": [
+                    { "name": "First", "type": "vec4", "value": [ 1.0, 1.0, 1.0, 1.0 ] },
+                    { "name": "Second", "type": "vec3", "value": [ 1.0, 1.0, 1.0 ] },
+                    { "name": "Third", "type": "vec3", "value": [ 1.0, 1.0, 1.0 ] },
+                    { "name": "Alpha", "type": "float", "value": 0.6 },
+                    { "name": "Radius", "type": "float", "value": 2.0 },
+                    { "name": "Divider", "type": "float", "value": 150.0 },
+                    { "name": "MaxSample", "type": "float", "value": 10.0 },
+                    { "name": "Quality", "type": "float", "value": 1.0 },
+                    { "name": "Time", "type": "float", "value": 0.0 },
+                    { "name": "Octaves", "type": "int", "value": 10 }
+                ]
+            }
+        }
+    ]
+}

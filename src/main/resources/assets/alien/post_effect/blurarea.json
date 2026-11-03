@@ -1,0 +1,65 @@
+{
+    "targets": {
+        "swap": {}
+    },
+    "passes": [
+        {
+            "vertex_shader": "minecraft:core/screenquad",
+            "fragment_shader": "alien:post/blurarea",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main",
+                    "bilinear": true
+                }
+            ],
+            "output": "swap",
+            "uniforms": {
+                "BlurConfig": [
+                    { "name": "BlurDir", "type": "vec2", "value": [ 1.0, 0.0 ] },
+                    { "name": "Radius", "type": "float", "value": 20.0 }
+                ],
+                "BlurAreaConfig": [
+                    { "name": "Area0", "type": "vec4", "value": [ 0.0, 0.0, 0.0, 0.0 ] },
+                    { "name": "Area1", "type": "vec4", "value": [ 0.0, 0.0, 0.0, 0.0 ] },
+                    { "name": "Area2", "type": "vec4", "value": [ 0.0, 0.0, 0.0, 0.0 ] },
+                    { "name": "Area3", "type": "vec4", "value": [ 0.0, 0.0, 0.0, 0.0 ] },
+                    { "name": "Area4", "type": "vec4", "value": [ 0.0, 0.0, 0.0, 0.0 ] },
+                    { "name": "Area5", "type": "vec4", "value": [ 0.0, 0.0, 0.0, 0.0 ] },
+                    { "name": "Area6", "type": "vec4", "value": [ 0.0, 0.0, 0.0, 0.0 ] },
+                    { "name": "Area7", "type": "vec4", "value": [ 0.0, 0.0, 0.0, 0.0 ] },
+                    { "name": "Count", "type": "float", "value": 0.0 }
+                ]
+            }
+        },
+        {
+            "vertex_shader": "minecraft:core/screenquad",
+            "fragment_shader": "alien:post/blurarea",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "swap",
+                    "bilinear": true
+                }
+            ],
+            "output": "minecraft:main",
+            "uniforms": {
+                "BlurConfig": [
+                    { "name": "BlurDir", "type": "vec2", "value": [ 0.0, 1.0 ] },
+                    { "name": "Radius", "type": "float", "value": 20.0 }
+                ],
+                "BlurAreaConfig": [
+                    { "name": "Area0", "type": "vec4", "value": [ 0.0, 0.0, 0.0, 0.0 ] },
+                    { "name": "Area1", "type": "vec4", "value": [ 0.0, 0.0, 0.0, 0.0 ] },
+                    { "name": "Area2", "type": "vec4", "value": [ 0.0, 0.0, 0.0, 0.0 ] },
+                    { "name": "Area3", "type": "vec4", "value": [ 0.0, 0.0, 0.0, 0.0 ] },
+                    { "name": "Area4", "type": "vec4", "value": [ 0.0, 0.0, 0.0, 0.0 ] },
+                    { "name": "Area5", "type": "vec4", "value": [ 0.0, 0.0, 0.0, 0.0 ] },
+                    { "name": "Area6", "type": "vec4", "value": [ 0.0, 0.0, 0.0, 0.0 ] },
+                    { "name": "Area7", "type": "vec4", "value": [ 0.0, 0.0, 0.0, 0.0 ] },
+                    { "name": "Count", "type": "float", "value": 0.0 }
+                ]
+            }
+        }
+    ]
+}

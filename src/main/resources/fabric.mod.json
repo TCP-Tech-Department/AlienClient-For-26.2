@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "alien",
+  "version": "${version}",
+  "name": "Alien",
+  "description": "a powerful functional mod designed for the 2b2t.xin and 3c3u.org",
+  "authors": [
+    "KizuatoResult",
+    "DDNotFound_"
+  ],
+  "accessWidener": "alien.accesswidener",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "dev.luminous.Alien"
+    ]
+  },
+  "mixins": [
+    "alien.mixins.json",
+    "alien.sodium.mixins.json"
+  ],
+  "depends": {
+    "minecraft": ">=26.2",
+    "java": ">=25",
+    "fabricloader": ">=0.19.5"
+  }
+}

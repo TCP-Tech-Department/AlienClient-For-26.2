@@ -1,0 +1,84 @@
+plugins {
+    // 26.x：使用 Fabric Loom 的命名空间插件 id（旧 id 'fabric-loom' 会走要求 mappings 的旧路径）
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+loom {
+    accessWidenerPath = file("src/main/resources/alien.accesswidener")
+
+    runs {
+        // 冒烟测试用：自动进入已有存档 "New World"，用于验证 26.2 mixin 注入与渲染是否正常。
+        // 用法：./gradlew runSmokeClient
+        smokeClient {
+            client()
+            name = "Smoke Client"
+            programArgs "--quickPlaySingleplayer", "New World"
+        }
+    }
+}
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    // 本机访问 repo.maven.apache.org / libraries.minecraft.net 偶发 TLS 握手失败，
+    // 用国内镜像兜底（只影响依赖下载，不改变构建产物）。
+    maven { url = 'https://maven.aliyun.com/repository/public' }
+    maven { url = 'https://maven.aliyun.com/repository/central' }
+    mavenCentral()
+    flatDir {
+        dirs 'lib'
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    // 26.x：官方已不混淆，使用官方命名，不再声明 mappings（无 yarn 重映射）。
+    // 无重映射 ⇒ 用普通 implementation，而非 modImplementation。
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // native-obfuscator 的 @Native 注解（本地 jar，与 MC 版本无关）
+    compileOnly files('lib/annotations.jar')
+
+    // TODO(P6)：26.2 版 sodium / baritone 尚未提供，暂时停用。
+    //  待上游发布 26.2 版本后恢复，并同步 asm/mixins/sodium/** 与 BaritoneModule。
+    // implementation("maven.modrinth:sodium:mc26.2-<version>") { transitive = false }
+    // implementation "meteordevelopment:baritone:26.2-SNAPSHOT"
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25
+    // 迁移期：提高 javac 错误上限，便于一次看到全部待迁移问题
+    it.options.compilerArgs += ['-Xmaxerrs', '6000']
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+}
+
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            artifactId = project.archives_base_name
+            from components.java
+        }
+    }
+
+    repositories {
+    }
+}
